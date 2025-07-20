@@ -10,9 +10,5 @@ class SessionListWidget(QWidget):
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
 
-        self.title = QLabel("Sessions récentes")
-        self.title.setAlignment(Qt.AlignCenter)
-        self.layout.addWidget(self.title)
-
         self.list_widget = QListWidget()
         self.layout.addWidget(self.list_widget)

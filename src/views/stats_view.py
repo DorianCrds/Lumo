@@ -1,5 +1,5 @@
 # src/views/stats_view.py
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QComboBox
+from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QComboBox, QHBoxLayout
 from PySide6.QtCore import Signal
 
 class StatsView(QWidget):
@@ -8,23 +8,31 @@ class StatsView(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.layout = QVBoxLayout()
-        self.setLayout(self.layout)
+        main_v_layout = QVBoxLayout()
 
         self.title_label = QLabel("Statistiques")
+        main_v_layout.addWidget(self.title_label)
+
         self.period_selector = QComboBox()
         self.period_selector.addItems(["Toutes", "Semaine", "Mois"])
         self.period_selector.currentTextChanged.connect(self.on_period_changed)
+        main_v_layout.addWidget(self.period_selector)
+
+        content_h_layout = QHBoxLayout()
 
         self.days_worked_label = QLabel()
         self.total_time_label = QLabel()
         self.avg_per_day_label = QLabel()
 
-        self.layout.addWidget(self.title_label)
-        self.layout.addWidget(self.period_selector)
-        self.layout.addWidget(self.days_worked_label)
-        self.layout.addWidget(self.total_time_label)
-        self.layout.addWidget(self.avg_per_day_label)
+
+        content_h_layout.addWidget(self.days_worked_label)
+        content_h_layout.addWidget(self.total_time_label)
+        content_h_layout.addWidget(self.avg_per_day_label)
+
+        main_v_layout.addLayout(content_h_layout)
+        main_v_layout.addStretch()
+
+        self.setLayout(main_v_layout)
 
     def update_stats(self, stats: dict):
         self.days_worked_label.setText(f"Jours travaillés : {stats['days_worked']}")
